@@ -1,0 +1,2 @@
+FallbackResource /index.php
+#AddHandler application/x-httpd-php54 .php

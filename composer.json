@@ -1,0 +1,8 @@
+{
+    "require": {
+        "monolog/monolog": ">=1.0.0",
+        "twig/twig": "1.*",
+        "symfony/finder": "2.3.*",
+        "symfony/yaml": "2.3.*"
+    }
+}

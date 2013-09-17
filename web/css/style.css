@@ -1,0 +1,112 @@
+@font-face {
+	font-family: ProximaNova;
+	src: url(/font/ProximaNova-Reg.otf);
+}
+
+@font-face {
+	font-family: ProximaNovaBold;
+	src: url(/font/ProximaNova-Sbold.otf);
+	font-weight: bold;
+}
+
+@font-face {
+	font-family: ProximaNovaItalic;
+	src: url(/font/ProximaNova-RegIt.otf);
+	font-style: italic;
+}
+
+* {
+	font-family: ProximaNova;
+}
+
+.container {
+	width: 1200px;
+}
+
+.container #application,.container #page {
+	float: left;
+}
+
+.header {
+	background-color: #518dca;
+	padding-left: 32px;
+}
+
+#application {
+	width: 237px;
+	color: #5e768e;
+	background-color: #233e50;
+	height: 896px;
+}
+
+#application header {
+	font-family: ProximaNovaBold; text-transform : uppercase;
+	color: #9cb3ca;
+	background-color: #4f657b;
+	border: 1px solid #000;
+	border-right: 0;
+	border-left: 0;
+	text-align: center;
+	line-height: 28px;
+	height: 28px;
+	vertical-align: middle;
+	font-size: 13px;
+	text-transform: uppercase;
+}
+
+#application .element {
+	height: 75px;
+	padding: 32px;
+	border: 1px solid #000;
+	float: left;
+}
+
+#application section {
+	border: 1px solid #000;
+	border-width: 1px 0 1px 0;
+}
+
+#application .element.top {
+	border-top: 0;
+}
+
+.element .title, 
+.element .text,
+.element .image,
+.element .nav {
+	height: 56px;
+	width: 53px;
+}
+
+.element .title{
+	background: url(/img/Element-Icons.png) -9px -7px;
+}
+.element .text{
+	background: url(/img/Element-Icons.png) -63px -7px;	
+}
+.element .image{
+	background: url(/img/Element-Icons.png) -117px -7px;
+}
+.element .nav{
+	background: url(/img/Element-Icons.png) -171px -7px;	
+}
+
+#application section {
+
+}
+
+#page {
+	width: 963px;
+}
+
+.border-bottom {
+	border-width: 0 0 3px 0; 
+    -webkit-border-image: 
+        -webkit-gradient(linear, 100% 0, 0 0, from(black), to(rgba(0, 0, 0, 0))) 100% 1;
+    -webkit-border-image: 
+        -webkit-linear-gradient(top, black, rgba(0, 0, 0, 0)) 100% 1;
+    -o-border-image:
+             -o-linear-gradient(top, black, rgba(0, 0, 0, 0)) 100% 1;
+    -moz-border-image:
+           -moz-linear-gradient(top, black, rgba(0, 0, 0, 0)) 100% 1; 
+}

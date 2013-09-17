@@ -1,0 +1,63 @@
+
+DROP TABLE element;
+DROP TABLE element_type;
+DROP TABLE page;
+DROP TABLE state;
+
+
+CREATE TABLE state(
+	id TINYINT(2) NOT NULL AUTO_INCREMENT,
+	name VARCHAR(20),
+	PRIMARY KEY (id)
+);
+
+
+CREATE TABLE page (
+	id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+	name VARCHAR(255),
+	state TINYINT(2) NOT NULL,
+	
+	PRIMARY KEY (id),
+	
+	FOREIGN KEY (state)
+		REFERENCES state (id)
+		ON UPDATE CASCADE ON DELETE RESTRICT
+	
+) ENGINE=INNODB;
+
+
+CREATE TABLE element_type (
+    id TINYINT(4) NOT NULL AUTO_INCREMENT,
+    name VARCHAR(20),
+    
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE element (
+	id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+	type TINYINT(4) NOT NULL,
+	page INT(11) UNSIGNED NOT NULL,
+	state TINYINT(2) NOT NULL,
+	
+	PRIMARY KEY (id),
+
+	FOREIGN KEY (type)
+		REFERENCES element_type (id)
+		ON UPDATE CASCADE ON DELETE RESTRICT,
+		
+	FOREIGN KEY (page)
+		REFERENCES page (id)
+		ON UPDATE CASCADE ON DELETE RESTRICT,
+		
+	FOREIGN KEY (state)
+		REFERENCES state (id)
+		ON UPDATE CASCADE ON DELETE RESTRICT
+
+) ENGINE=INNODB;
+
+
+
+INSERT INTO state (name) VALUES ('active'), ('delete');
+INSERT INTO element_type (name) VALUES ('title'), ('text'), ('image'), ('nav');
+
+	
