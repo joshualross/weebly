@@ -19,6 +19,10 @@
 	font-family: ProximaNova;
 }
 
+.clear {
+	clear:both;
+}
+
 .container {
 	width: 1200px;
 }
@@ -37,10 +41,12 @@
 	color: #5e768e;
 	background-color: #233e50;
 	height: 896px;
+	text-transform: uppercase;
+	font-size: 13px;
+	font-family: ProximaNovaBold;
 }
 
 #application header {
-	font-family: ProximaNovaBold; text-transform : uppercase;
 	color: #9cb3ca;
 	background-color: #4f657b;
 	border: 1px solid #000;
@@ -50,15 +56,6 @@
 	line-height: 28px;
 	height: 28px;
 	vertical-align: middle;
-	font-size: 13px;
-	text-transform: uppercase;
-}
-
-#application .element {
-	height: 75px;
-	padding: 32px;
-	border: 1px solid #000;
-	float: left;
 }
 
 #application section {
@@ -66,8 +63,44 @@
 	border-width: 1px 0 1px 0;
 }
 
+#application .page input {
+	margin: 24px 32px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	background-color: #518dca;
+	border: 0;
+	color: #FFF;
+	border-bottom: 2px solid #233240;
+	padding: 12px;
+	text-transform: uppercase;
+	font-size: 13px;
+}
+
+#application .element {
+	height: 75px;
+	padding: 32px 32px 16px 32px;
+	border: 1px solid #000;
+	float: left;
+}
+
+#application .element:hover {
+	background-color: #3d5266;
+}
+
+#application .element span {
+	position: relative;
+	top: 8px;
+	left: 8px;
+}
+
+
 #application .element.top {
 	border-top: 0;
+	border-bottom: 0;
+}
+#application .element.left {
+	border-right: 0;
 }
 
 .element .title, 
@@ -91,22 +124,55 @@
 	background: url(/img/Element-Icons.png) -171px -7px;	
 }
 
-#application section {
+.site-grid {
+	padding: 15px 30px;
+}
 
+.site-grid > div {
+	display:inline-block;
+}
+
+.switch-label {
+	line-height: 25px;
+	vertical-align: top;
+	margin-right: 64px
+}
+
+.switch input {
+    display: none;
+}
+
+.switch input + label {
+	background: url(/img/Toggle-Switch.png) -6px -6px no-repeat;
+	height: 25px;
+	width: 50px;
+	display: inline-block;
+	padding: 0;
+}
+
+.switch input + label:hover {
+	background: url(/img/Toggle-Switch.png) -6px -31px no-repeat;
+	height: 25px;
+	width: 50px;
+	display: inline-block;
+	padding: 0;
+/* 	-webkit-transition: background 1s ease;  
+    -moz-transition: background 1s ease;  
+    -o-transition: background 1s ease;  
+    -ms-transition: background 1s ease;  
+    transition: background 1s ease;  */
+}
+
+.switch input:checked + label {
+	background: url(/img/Toggle-Switch.png) -6px -56px no-repeat;
+	height: 25px;
+	width: 50px;
+	display: inline-block;
+	padding: 0;
+	
 }
 
 #page {
 	width: 963px;
 }
 
-.border-bottom {
-	border-width: 0 0 3px 0; 
-    -webkit-border-image: 
-        -webkit-gradient(linear, 100% 0, 0 0, from(black), to(rgba(0, 0, 0, 0))) 100% 1;
-    -webkit-border-image: 
-        -webkit-linear-gradient(top, black, rgba(0, 0, 0, 0)) 100% 1;
-    -o-border-image:
-             -o-linear-gradient(top, black, rgba(0, 0, 0, 0)) 100% 1;
-    -moz-border-image:
-           -moz-linear-gradient(top, black, rgba(0, 0, 0, 0)) 100% 1; 
-}
