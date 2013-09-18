@@ -1,18 +1,35 @@
 define([
     'jquery', 
     'underscore', 
-    'backbone', 
+    'backbone',
     'router'
 ], function($, _, Backbone, Router) {
     var initialize = function() {
         Router.initialize();
-        
-        //here we add some droppable elements
+
+        // here we add some droppable elements
         $('.droppable').droppable({
-            accept: '.draggable', 
-            drop: function(event, draggable){debugger;}
+            accept : '.draggable',
+            drop : function(event, draggable) {
+                
+            }
         });
-    };
+
+        $.fn.setCursorPosition = function(pos) {
+            this.each(function(index, elem) {
+                if (elem.setSelectionRange) {
+                    elem.setSelectionRange(pos, pos);
+                } else if (elem.createTextRange) {
+                    var range = elem.createTextRange();
+                    range.collapse(true);
+                    range.moveEnd('character', pos);
+                    range.moveStart('character', pos);
+                    range.select();
+                }
+            });
+            return this;
+        };
+    }
 
     return {
         initialize : initialize

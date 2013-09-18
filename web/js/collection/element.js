@@ -2,21 +2,14 @@
 define([
     'underscore', 
     'backbone',
-    'model/prediction'
-], function(_, Backbone, PredictionModel) {
-    var PredictionCollection = Backbone.Collection.extend((function() {
-        var position;
-        return {
-            model : PredictionModel,
-            url : function() {
-                if (typeof position != 'undefined')
-                    return '/prediction/' + position.coords.latitude + '/' + position.coords.longitude;
-            },
-            initialize : function(models, options) {
-                position = options.position;
-                this.fetch(this.url);
-            }
-        };
-    })());
-    return PredictionCollection;
+    'model/element'
+], function(_, Backbone, ElementModel) {
+    var ElementCollection = Backbone.Collection.extend({
+        model : ElementModel,
+        url : '/element/type',
+        initialize : function(models, options) {
+            this.fetch(this.url);
+        }
+    });
+    return ElementCollection;
 });

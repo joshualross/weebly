@@ -2,7 +2,7 @@
 <section>
 	<div class="page default">
 		<div class="controls">
-			<span class="edit"></span>
+			<span class="edit"></span> 
 			<span class="delete"></span>
 		</div>
 		<input type="text" value="Page" disabled="disabled">

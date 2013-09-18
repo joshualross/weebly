@@ -2,43 +2,69 @@
 define([
     'jquery', 
     'underscore', 
-    'backbone',
-    'text!/view/module/templates.hb'
-], function($, _, Backbone, template) {
+    'backbone', 
+    'text!/view/module/templates.hb',
+    'text!/view/module/page.hb',    
+], function($, _, Backbone, template, subtemplate) {
     var TemplatesView = Backbone.View.extend({
-        el: $('#templates'),
-        events: {
-            'click .controls': 'modify',
-            'blur .page input': 'disable'
+        el : $('#templates'),
+        defaultText: 'Add New Page',
+        events : {
+            'click .edit' : 'edit',
+            'click .confirm .delete' : 'remove',
+            'click .delete' : 'confirm',
+            'click .page.add .add' : 'append',
+            'click .page.add' : 'add',
+            'blur .page input' : 'disable',
+            'keyup .page.add input' : 'keyup'
         },
-        template: Handlebars.compile(template),
-        render: function() {
+        template : Handlebars.compile(template),
+        subtemplate: Handlebars.compile(subtemplate),
+        render : function() {
             this.$el.html(this.template());
         },
-        modify: function(e) {
-            //focus the input
-            //
-            var $target = $(e.target),
-                $input = $(e.currentTarget).next('input');
-            if ($target.hasClass('edit'))
-                this.edit($input);
-            else 
-                this.remove($(e.currentTarget).parent('.page'));
-        },
-        edit: function($input) {
+        add: function(e) {
+            // focus input
+            var $input = $(e.currentTarget).children('input');            
             $input.attr('disabled', false).focus();
+            if ($input.val() == this.defaultText)
+                $input.setCursorPosition(0);
+            
         },
-        remove: function($el) {
-            if ($el.hasClass('confirm'))
-                $el.remove();
-            else
-                $el.addClass('confirm');
+        append: function(e) {
+            var $parent = $(e.currentTarget).parent().parent('.page'),
+                $input = $parent.children('input');  
+            if ($input.val() != this.defaultText) {
+                $(this.subtemplate({'value': $input.val()}))
+                    .insertBefore($parent);
+                $input.val(this.defaultText);
+            }
         },
-        disable: function(e) {
+        edit : function(e) {
+            $(e.currentTarget).parent().next('input').attr('disabled', false)
+                .focus();
+        },
+        remove : function(e) {
+            $(e.currentTarget).parent().parent('.page').remove();
+        },
+        confirm : function(e) {
+            $(e.currentTarget).parent().parent('.page').addClass('confirm');
+        },
+        disable : function(e) {
             $(e.target).attr('disabled', 'disabled');
         },
-        initialize: function(options) {
-            
+        keyup: function(e) {
+            //if the input value doesn't match the default, remove the default
+            //else if its empty, add the default
+            var $target = $(e.target),
+                value = $target.val();
+
+            if (value != this.defaultText)
+                $target.val(value.replace(this.defaultText, ''));
+            else if (value == '')
+                $target.val(this.defaultText);
+        },
+        initialize : function(options) {
         }
     });
     return TemplatesView;
