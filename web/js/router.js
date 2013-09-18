@@ -34,5 +34,5 @@ define([
     };
     return {
         initialize: initialize
-    }
+    };
 });

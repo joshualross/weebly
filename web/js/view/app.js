@@ -16,14 +16,18 @@ define([
         },
         template: Handlebars.compile(appTemplate),
         render: function() {
-            this.$el.html(this.template());
-            _.each(this.views, function(view){
-                this.$el.append(view.template());
+            this.$el.html(this.template()); 
+            this.$el.promise().done(function(){
+                _.each(this.views, function(view, index){
+                    view.el = '#' + index; //update the element
+                    view.$el = $('#' + index); //update the element
+                    view.render();
+                    view.delegateEvents(); //rebind events uggh
+                });                
             }.bind(this));
             return this;
         },
         initialize: function(options) {
-            this.on('render', this.afterRender);
             //we have three views in this app
             this.views.templates = new TemplatesView();
             this.views.elements = new ElementsView();

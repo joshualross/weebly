@@ -15,4 +15,7 @@ define([
             return Handlebars.templates[subtemplate](data);
         }
     });
+    Handlebars.registerHelper('getPositionClass', function() {
+        debugger;
+    });
 });
