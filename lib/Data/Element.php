@@ -4,16 +4,16 @@ namespace lib\Data;
 use lib\Data\Data;
 
 /**
- * CRUD for state table
+ * CRUD for element table
  * @author Joshua Ross <joshualross@gmail.com>
  */
-class State extends Data
+class Element extends Data
 {
     /**
      * Table name
      * @var string
      */
-    protected $name = 'state';
+    protected $name = 'element';
 
     /**
      * Primary key

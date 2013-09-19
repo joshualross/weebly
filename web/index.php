@@ -1,11 +1,16 @@
 <?php
 require '..' . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
-use lib\Application\Application,
-    lib\Struct\Struct;
+use lib\Application\Application;
+use lib\Struct\Struct;
+use lib\Data\Page;
+use lib\Data\Element;
+use lib\Data\State;
 
 
-//load the app lib and setup some deps
+/*
+ * Setup some requirements
+ */
 $app    = new Application();
 $loader = new Twig_Loader_Filesystem(__BASE__ . 'web' . DIRECTORY_SEPARATOR . 'view');
 $twig   = new Twig_Environment($loader);
@@ -13,11 +18,84 @@ $pdo    = new PDO('mysql:dbname=weebly;host=127.0.0.1', 'root', '');
 
 
 
-
+/**
+ * App entry point, load the spa
+ */
 $app->on('', function($params) use($twig) {
-
     echo $twig->render('index.twig', $params);
+});
 
+/**
+ * Error handling method
+ */
+$app->error(function() use ($twig) {
+    echo $twig->render('error.twig');
+});
+
+
+
+/*********************************************
+ *
+ * API methods below
+ *
+ ********************************************/
+
+//page create
+$app->post('/page', function($params) use($pdo) {
+
+    $struct = new Struct($params);
+    $data = new Page($pdo);
+    $struct = $data->create($struct);
+
+    echo $struct->toJSON();
+});
+
+//page update
+$app->put('/page', function($params) use($pdo) {
+
+    $struct = new Struct($params);
+    $data = new Page($pdo);
+    $struct = $data->update($struct);
+
+    echo $struct->toJSON();
+});
+
+
+//page delete
+$app->delete('/page', function($params) use($pdo) {
+    $data = new Page($pdo);
+    $struct = $data->delete($params['id']);
+
+//@todo return
+});
+
+//element create
+$app->post('/element', function($params) use($pdo) {
+
+    $struct = new Struct($params);
+    $data = new Element($pdo);
+    $struct = $data->create($struct);
+
+    echo $struct->toJSON();
+});
+
+//element update
+$app->put('/element', function($params) use($pdo) {
+
+    $struct = new Struct($params);
+    $data = new Element($pdo);
+    $struct = $data->update($struct);
+
+    echo $struct->toJSON();
+});
+
+
+//element delete
+$app->delete('/element', function($params) use($pdo) {
+    $data = new Element($pdo);
+    $struct = $data->delete($params['id']);
+
+    //@todo return
 });
 
 $app->on('/element/type', function($params) use($pdo) {
@@ -32,39 +110,6 @@ $app->on('/element/type', function($params) use($pdo) {
     echo json_encode($types);
 });
 
-//page create
-$app->post('/page', function($params) use($pdo) {
 
-    //create a new struct
-    $struct = new Struct($params);
-
-    //add to the db
-    $data = new Page();
-    $data->create($struct);
-
-//@todo need more params, not null is killing me here
-    $query = $pdo->prepare("INSERT INTO page (name) VALUES name=:name");
-    $query->execute(array('name' => $params['name']));
-
-    $struct->id = $pdo->lastInsertId();
-
-    echo $struct->toJSON();
-});
-
-//page update
-$app->put('/page', function($params) {
-    var_dump($params);
-});
-
-//page delete
-$app->put('/page', function($params) {
-    var_dump($params);
-});
-
-
-$app->error(function() use ($twig){
-    //render twig error page
-    echo $twig->render('error.twig');
-});
-
+//run - will parse the route and params followed by handling it
 $app->run();

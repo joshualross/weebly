@@ -6,7 +6,7 @@ use lib\Struct\Collection;
 use \PDO;
 
 /**
- * CRUD for page table
+ * CRUD base class
  * @author Joshua Ross <joshualross@gmail.com>
  */
 abstract class Data
