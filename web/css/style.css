@@ -17,6 +17,7 @@
 
 * {
 	font-family: ProximaNova;
+	font-size: 13px;
 }
 
 .clear {
@@ -72,8 +73,12 @@
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
-	background-color: #518dca;
+	background-color: #4f657b;
 	border-bottom-color: 2px solid #233240;
+}
+
+#templates .page.default {
+	background-color: #518dca;
 }
 
 #templates .page input{
@@ -111,6 +116,9 @@
 #templates .page.confirm {
 	background-color: #d86a65;
 }
+#templates .page.confirm span.edit {
+	display:none;
+}
 
 #templates span.edit {
 	background: url(/img/Add-Delete-Edit-Icons.png) -34px -12px;
@@ -138,7 +146,7 @@
 	display: inline-block;
 	width: 15px;
 }
-#templates span.add:hover {
+#templates span.add:hover, #templates .page.add:hover span.add {
 	background: url(/img/Add-Delete-Edit-Icons.png) -12px -31px;
 }
 
@@ -244,5 +252,55 @@
 
 #page .wrapper {
 	padding: 25px 80px;
+}
+
+#page nav {
+	margin: 24px 0;
+}
+
+#page nav .button {
+	padding: 10px 15px;
+	width: 96px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: 2px solid #8498ac;
+	background-color: #FFF;
+	color: #97aabc;
+	text-align: center;
+	display: inline-block;
+	text-transform: uppercase;
+	margin-right: 10px;
+}
+
+#page nav .button.default {
+	background-color: #97aabc;
+	color: #FFF;
+}
+
+#page #image {
+	margin: 48px 0;
+	height: 300px;
+	background: #eff2f5;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: 2px solid #c0ccd8;
+}
+
+#page #image div {
+	position: relative;
+	top: 25%;
+	width: 104px;
+	margin: auto;
+}
+
+#page #image div.container div {
+	height: 104px;
+	background: #FFF url(/img/Element-Icons@2x.png) -234px -15px no-repeat;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	border: 5px solid #FFF;
 }
 

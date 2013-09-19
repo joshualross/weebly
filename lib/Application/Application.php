@@ -7,40 +7,99 @@ namespace lib\Application;
  */
 class Application
 {
-    const ROUTE_ERROR = 'error';
+    const HANDLER_ERROR = 'error';
+
+    const METHOD_GET = 'GET';
+    const METHOD_POST = 'POST';
+    const METHOD_PUT = 'PUT';
+    const METHOD_DELETE = 'DELETE';
 
     /**
-     * Route
+     * Routes
      * @var array
      */
-    protected $routes = array();
+    protected $routes = array(
+    	self::METHOD_GET => array(),
+    	self::METHOD_POST => array(),
+    	self::METHOD_PUT => array(),
+    	self::METHOD_DELETE => array(),
+    );
 
     /**
-     * Error handler
+     * Various route handlers, normally for errors
      * @var function
      */
-    protected $errorHandler = null;
+    protected $handlers = array(
+    	self::HANDLER_ERROR => null,
+    );
 
-
-    /**
-     * Adds a handler for a specific route
-     * @param string $route
-     * @return lib\Application\Application
-     */
-    public function on($route, $handler)
-    {
-        $this->routes[$route] = $handler;
-        return $this;
-    }
 
     /**
      * Error state handler
      * scope param
-     * @return type
+     * @return lib\Application\Application
      */
     public function error($handler)
     {
-        $this->routes[self::ROUTE_ERROR] = $handler;
+        $this->handlers[self::HANDLER_ERROR] = $handler;
+        return $this;
+    }
+
+    /**
+     * Setup a route for put requests
+     * @param string $route
+     * @param function $handler
+     * @return lib\Application\Application
+     */
+    public function put($route, $handler)
+    {
+        return $this->on($route, $handler, self::METHOD_PUT);
+    }
+
+    /**
+     * Setup a route for get requests
+     * @param string $route
+     * @param function $handler
+     * @return lib\Application\Application
+     */
+    public function get($route, $handler)
+    {
+        return $this->on($route, $handler, self::METHOD_GET);
+    }
+
+    /**
+     * Setup a route for delete requests
+     * @param string $route
+     * @param function $handler
+     * @return lib\Application\Application
+     */
+    public function delete($route, $handler)
+    {
+        return $this->on($route, $handler, self::METHOD_DELETE);
+    }
+
+    /**
+     * Setup a route for post requests
+     * @param string $route
+     * @param function $handler
+     * @return lib\Application\Application
+     */
+    public function post($route, $handler)
+    {
+        return $this->on($route, $handler, self::METHOD_POST);
+    }
+
+    /**
+     * Add a route
+     * @param string $route
+     * @param function $handler
+     * @param string $method
+     * @return lib\Application\Application
+     */
+    public function on($route, $handler, $method=self::METHOD_GET)
+    {
+        $this->routes[$method][$route] = $handler;
+        return $this;
     }
 
     /**
@@ -52,9 +111,10 @@ class Application
     {
         //very basic route parsing
         $request = $_SERVER['REQUEST_URI'];
+        $method = $_SERVER['REQUEST_METHOD'];
         $params  = array();
 
-        //get rid of the query params
+        //separate out the query params
         if (false !== strpos($request, '?'))
             list($path, $params) = explode('?', $request, 2);
         else
@@ -62,23 +122,35 @@ class Application
 
         $path = rtrim($path, '/');
 
-        //basic param handling
-        if (!empty($params))
-        {
-            parse_str($params, $result);
-            $params = $result;
+        //get the params from the put/delete/post
+        $params = file_get_contents("php://input");
+        if (isset($_SERVER['CONTENT_TYPE']) && $_SERVER['CONTENT_TYPE'] == 'application/json')
+            $params = json_decode($params, true);
+
+        if (!is_array($params))
+            $params = array();
+
+        $params = array_merge($params, $_REQUEST);
+
+        if (empty($params)) {
+            $params = array();
         }
 
+        //create an output buffer
+        //call the route if it exists
+        //fallback to error handler
         ob_start();
+        if (!empty($this->routes[$method][$path])) {
+            $this->routes[$method][$path]($params);
 
-        if (!empty($this->routes[$path]))
-            $this->routes[$path]($params);
-        else if (!empty($this->routes[self::ROUTE_ERROR]))
-            $this->routes[self::ROUTE_ERROR]();
+        } else if (!empty($this->handlers[self::HANDLER_ERROR])) {
+            $this->handlers[self::HANDLER_ERROR]($params);
+
+        }
 
         $output = ob_get_flush();
         if (empty($output))
-            $this->routes[self::ROUTE_ERROR]();
+            echo 'we completely failed!';
 
         return $this;
     }

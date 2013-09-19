@@ -4,13 +4,12 @@ define([
     'underscore', 
     'backbone', 
     'view/app',
+    'view/canvas',
     'view/error'
-], function($, _, Backbone, AppView, ErrorView) {
+], function($, _, Backbone, AppView, CanvasView, ErrorView) {
     var AppRouter = Backbone.Router.extend({
         routes : {
-            // Define some URL routes
             '' : 'index',
-            // Default
             '*actions' : 'defaultAction'
         }
     });
@@ -19,6 +18,9 @@ define([
         router.on('route:index', function() {  
             var view = new AppView();
             view.render();
+            
+            var canvas = new CanvasView();
+            canvas.render();
             
         });
         router.on('route:defaultAction', function(actions) {

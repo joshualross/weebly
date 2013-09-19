@@ -3,9 +3,11 @@ define([
     'jquery', 
     'underscore', 
     'backbone', 
+    'model/template',
+    'collection/template',
     'text!/view/module/templates.hb',
-    'text!/view/module/page.hb',    
-], function($, _, Backbone, template, subtemplate) {
+    'text!/view/module/partial/template-page.hb',    
+], function($, _, Backbone, TemplateModel, TemplateCollection, template, subtemplate) {
     var TemplatesView = Backbone.View.extend({
         el : $('#templates'),
         defaultText: 'Add New Page',
@@ -16,15 +18,16 @@ define([
             'click .page.add .add' : 'append',
             'click .page.add' : 'add',
             'blur .page input' : 'disable',
-            'keyup .page.add input' : 'keyup'
+            'keyup .page.add input' : 'addKeyup'
         },
+        position: 1,
         template : Handlebars.compile(template),
         subtemplate: Handlebars.compile(subtemplate),
         render : function() {
-            this.$el.html(this.template());
+            this.$el.html(this.template({'position': this.position}));
+            ++this.position;
         },
         add: function(e) {
-            // focus input
             var $input = $(e.currentTarget).children('input');            
             $input.attr('disabled', false).focus();
             if ($input.val() == this.defaultText)
@@ -33,29 +36,46 @@ define([
         },
         append: function(e) {
             var $parent = $(e.currentTarget).parent().parent('.page'),
-                $input = $parent.children('input');  
-            if ($input.val() != this.defaultText) {
-                $(this.subtemplate({'value': $input.val()}))
-                    .insertBefore($parent);
+                $input = $parent.children('input'),
+                value = $input.val();
+            if (value != this.defaultText) {
+                $(this.subtemplate({'value': value, 'position': ++this.position}))
+                    .insertBefore($parent);                
                 $input.val(this.defaultText);
+                
+                var model = new TemplateModel({'position': this.position, 'name': value});
+                model.save();
+                this.collection.add(model);
+                debugger;
+                Backbone.pubSub.trigger('template-add', {'value': value, 'position': this.position});
             }
         },
         edit : function(e) {
-            $(e.currentTarget).parent().next('input').attr('disabled', false)
+            $(e.currentTarget).parent().next('input')
+                .attr('disabled', false)
                 .focus();
         },
         remove : function(e) {
-            $(e.currentTarget).parent().parent('.page').remove();
+            var $parent = $(e.currentTarget).parent().parent('.page'),
+                value = $parent.children('input').val(),
+                position = $parent.data('position');
+
+            $parent.slideUp(300, function() {$(this).remove();});
+            Backbone.pubSub.trigger('template-remove', {'value':value, 'position':position});
         },
         confirm : function(e) {
             $(e.currentTarget).parent().parent('.page').addClass('confirm');
         },
         disable : function(e) {
-            $(e.target).attr('disabled', 'disabled');
+            var $target = $(e.target),
+                $parent = $(e.target).parent('.page'),
+                value = $target.val(),
+                position = $parent.data('position');
+            
+            $target.attr('disabled', 'disabled');
+            Backbone.pubSub.trigger('template-edit', {'value': value, 'position': position});
         },
-        keyup: function(e) {
-            //if the input value doesn't match the default, remove the default
-            //else if its empty, add the default
+        addKeyup: function(e) {
             var $target = $(e.target),
                 value = $target.val();
 
@@ -63,8 +83,10 @@ define([
                 $target.val(value.replace(this.defaultText, ''));
             else if (value == '')
                 $target.val(this.defaultText);
-        },
+        }, 
         initialize : function(options) {
+            
+            this.collection = new TemplateCollection([], {});
         }
     });
     return TemplatesView;

@@ -1,0 +1,1 @@
+<div class="button" data-position="{{position}}">{{value}}</div>

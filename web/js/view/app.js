@@ -27,6 +27,7 @@ define([
             }.bind(this));
             return this;
         },
+
         initialize: function(options) {
             //we have three views in this app
             this.views.templates = new TemplatesView();
