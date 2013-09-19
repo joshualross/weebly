@@ -3,10 +3,12 @@ define([
     'jquery', 
     'underscore', 
     'backbone', 
-    'view/app',
+    'view/elementTypes',
+    'view/templates',
+    'view/settings',
     'view/canvas',
     'view/error'
-], function($, _, Backbone, AppView, CanvasView, ErrorView) {
+], function($, _, Backbone, TemplatesView, ElementTypesView, SettingsView, CanvasView, ErrorView) {
     var AppRouter = Backbone.Router.extend({
         routes : {
             '' : 'index',
@@ -16,12 +18,16 @@ define([
     var initialize = function(options) {
         var router = new AppRouter();
         router.on('route:index', function() {  
-            var view = new AppView();
-            view.render();
+            var views = [
+                new TemplatesView(),
+                new ElementTypesView(),
+                new SettingsView(),
+                new CanvasView()
+            ];
             
-            var canvas = new CanvasView();
-            canvas.render();
-            
+            for (var i = 0; i < views.length; i++)
+                views[i].render();
+
         });
         router.on('route:defaultAction', function(actions) {
             

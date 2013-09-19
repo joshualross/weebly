@@ -103,25 +103,70 @@ class Application
     }
 
     /**
-     * Run the app
+     * Run the app, parses the route then calls the handler
      *
      * @return lib\Application\Application
      */
     public function run()
     {
         //very basic route parsing
+        $route  = $this->getRoute();
+        $params = $this->getParams();
+        $method = $this->getMethod();
+
+        //debug logging
+        error_log(json_encode(array(
+            'route' => $route,
+            'method' => $method,
+            'params' => $params),
+        JSON_UNESCAPED_SLASHES));
+
+
+        //create an output buffer
+        //call the route if it exists
+        //fallback to error handler
+        ob_start();
+        if (!empty($this->routes[$method][$route])) {
+            $this->routes[$method][$route]($params);
+
+        } else if (!empty($this->handlers[self::HANDLER_ERROR])) {
+            $this->handlers[self::HANDLER_ERROR]($params);
+        }
+
+        $output = ob_get_flush();
+        if (empty($output))
+            echo 'Nope. That didn\'t work';
+
+        return $this;
+    }
+
+    /**
+     * Parse the route from the REQUEST_URI
+     *
+     * @return string
+     */
+    protected function getRoute()
+    {
         $request = $_SERVER['REQUEST_URI'];
-        $method = $_SERVER['REQUEST_METHOD'];
-        $params  = array();
 
         //separate out the query params
         if (false !== strpos($request, '?'))
-            list($path, $params) = explode('?', $request, 2);
+            list($route, $params) = explode('?', $request, 2);
         else
-            $path = $request;
+            $route = $request;
 
-        $path = rtrim($path, '/');
+        $route = rtrim($route, '/');
+        return $route;
+    }
 
+    /**
+     * Return the params - parsed from stdin, json decoded when applicable, merged with
+     * _REQUEST params (post and get)
+     *
+     * @return array
+     */
+    protected function getParams()
+    {
         //get the params from the put/delete/post
         $params = file_get_contents("php://input");
         if (isset($_SERVER['CONTENT_TYPE']) && $_SERVER['CONTENT_TYPE'] == 'application/json')
@@ -134,24 +179,18 @@ class Application
 
         if (empty($params)) {
             $params = array();
-        }
+        };
 
-        //create an output buffer
-        //call the route if it exists
-        //fallback to error handler
-        ob_start();
-        if (!empty($this->routes[$method][$path])) {
-            $this->routes[$method][$path]($params);
+        return $params;
+    }
 
-        } else if (!empty($this->handlers[self::HANDLER_ERROR])) {
-            $this->handlers[self::HANDLER_ERROR]($params);
-
-        }
-
-        $output = ob_get_flush();
-        if (empty($output))
-            echo 'we completely failed!';
-
-        return $this;
+    /**
+     * Return the request method
+     *
+     * @return string
+     */
+    protected function getMethod()
+    {
+        return $_SERVER['REQUEST_METHOD'];;
     }
 }

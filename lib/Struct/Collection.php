@@ -116,7 +116,7 @@ class Collection extends Struct implements IteratorAggregate, Countable, ArrayAc
         $data = array();
         foreach ($this->_rows as $key => $struct)
         {
-            $data[$key] = $struct->toArray();
+            $data[] = $struct->toArray();
         }
 
         return json_encode($data);

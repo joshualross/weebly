@@ -5,9 +5,8 @@ define([
     'backbone', 
     'model/template',
     'collection/template',
-    'text!/view/module/templates.hb',
-    'text!/view/module/partial/template-page.hb',    
-], function($, _, Backbone, TemplateModel, TemplateCollection, template, subtemplate) {
+    'text!/view/module/templates.hb'   
+], function($, _, Backbone, TemplateModel, TemplateCollection, template) {
     var TemplatesView = Backbone.View.extend({
         el : $('#templates'),
         defaultText: 'Add New Page',
@@ -20,12 +19,12 @@ define([
             'blur .page input' : 'disable',
             'keyup .page.add input' : 'addKeyup'
         },
-        position: 1,
         template : Handlebars.compile(template),
-        subtemplate: Handlebars.compile(subtemplate),
         render : function() {
-            this.$el.html(this.template({'position': this.position}));
-            ++this.position;
+            this.$el.html(this.template({pages: this.collection.toJSON()}));
+            this.$el.find('.page:first-child').addClass('selected');
+            Backbone.pubSub.trigger('template-modify', this.collection);
+
         },
         add: function(e) {
             var $input = $(e.currentTarget).children('input');            
@@ -39,15 +38,10 @@ define([
                 $input = $parent.children('input'),
                 value = $input.val();
             if (value != this.defaultText) {
-                $(this.subtemplate({'value': value, 'position': ++this.position}))
-                    .insertBefore($parent);                
+                this.collection.create({'name': value});
                 $input.val(this.defaultText);
-                
-                var model = new TemplateModel({'position': this.position, 'name': value});
-                model.save();
-                this.collection.add(model);
-                debugger;
-                Backbone.pubSub.trigger('template-add', {'value': value, 'position': this.position});
+
+                Backbone.pubSub.trigger('template-modify', this.collection);
             }
         },
         edit : function(e) {
@@ -57,11 +51,11 @@ define([
         },
         remove : function(e) {
             var $parent = $(e.currentTarget).parent().parent('.page'),
-                value = $parent.children('input').val(),
-                position = $parent.data('position');
+                model = this.collection.get($parent.data('id'));
 
+            model.destroy();
             $parent.slideUp(300, function() {$(this).remove();});
-            Backbone.pubSub.trigger('template-remove', {'value':value, 'position':position});
+            Backbone.pubSub.trigger('template-modify', this.collection);
         },
         confirm : function(e) {
             $(e.currentTarget).parent().parent('.page').addClass('confirm');
@@ -69,11 +63,13 @@ define([
         disable : function(e) {
             var $target = $(e.target),
                 $parent = $(e.target).parent('.page'),
-                value = $target.val(),
-                position = $parent.data('position');
+                model = this.collection.get($parent.data('id'));;
             
+            model.set('name', $target.val());
+            model.save();
+                
             $target.attr('disabled', 'disabled');
-            Backbone.pubSub.trigger('template-edit', {'value': value, 'position': position});
+            Backbone.pubSub.trigger('template-modify', this.collection);
         },
         addKeyup: function(e) {
             var $target = $(e.target),
@@ -85,8 +81,9 @@ define([
                 $target.val(this.defaultText);
         }, 
         initialize : function(options) {
-            
             this.collection = new TemplateCollection([], {});
+            this.listenTo(this.collection, 'sync', this.render);
+            this.collection.fetch();
         }
     });
     return TemplatesView;

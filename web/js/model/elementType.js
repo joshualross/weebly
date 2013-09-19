@@ -3,10 +3,10 @@ define([
     'underscore', 
     'backbone'
 ], function(_, Backbone) {
-    var TemplateModel = Backbone.Model.extend({
+    var ElementTypeModel = Backbone.Model.extend({
         url: function() {
-            return '/page/?id=' + this.id; 
+            return '/element/type';
         }
     });
-    return TemplateModel;
+    return ElementTypeModel;
 });

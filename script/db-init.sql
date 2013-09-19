@@ -22,7 +22,7 @@ CREATE TABLE state(
 CREATE TABLE page (
 	id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 	name VARCHAR(255),
-	state TINYINT(2) UNSIGNED NOT NULL,
+	state TINYINT(2) UNSIGNED NOT NULL DEFAULT 1,
 	
 	PRIMARY KEY (id),
 	
@@ -45,7 +45,7 @@ CREATE TABLE element (
 	id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 	type TINYINT(2) UNSIGNED NOT NULL,
 	page INT(11) UNSIGNED NOT NULL,
-	state TINYINT(2) UNSIGNED NOT NULL,
+	state TINYINT(2) UNSIGNED NOT NULL DEFAULT 1,
 	
 	PRIMARY KEY (id),
 
@@ -69,5 +69,6 @@ CREATE TABLE element (
 
 INSERT INTO state (name) VALUES ('active'), ('delete');
 INSERT INTO element_type (name) VALUES ('title'), ('text'), ('image'), ('nav');
+INSERT INTO page (name, state) VALUES ('page', 1);
 
 	

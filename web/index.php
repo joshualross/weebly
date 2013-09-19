@@ -5,6 +5,7 @@ use lib\Application\Application;
 use lib\Struct\Struct;
 use lib\Data\Page;
 use lib\Data\Element;
+use lib\Data\ElementType;
 use lib\Data\State;
 
 
@@ -39,6 +40,13 @@ $app->error(function() use ($twig) {
  * API methods below
  *
  ********************************************/
+
+//page get
+$app->get('/page', function($params) use($pdo) {
+    $data = new Page($pdo);
+    $collection = $data->get();
+    echo $collection->toJSON();
+});
 
 //page create
 $app->post('/page', function($params) use($pdo) {
@@ -98,18 +106,12 @@ $app->delete('/element', function($params) use($pdo) {
     //@todo return
 });
 
-$app->on('/element/type', function($params) use($pdo) {
-    //return the element types
 
-    $types = array();
-    foreach ($pdo->query('SELECT * FROM element_type') as $row)
-    {
-        $types[] = array('id' => $row['id'], 'name' => $row['name']);
-    }
-
-    echo json_encode($types);
+$app->get('/element/type', function($params) use($pdo) {
+    $data = new ElementType($pdo);
+    $collection = $data->get();
+    echo $collection->toJSON();
 });
-
 
 //run - will parse the route and params followed by handling it
 $app->run();

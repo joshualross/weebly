@@ -74,15 +74,19 @@ abstract class Data
         $query = "UPDATE {$this->name}"
             . " SET";
 
+        $values = array();
         foreach ($data as $key => $value)
         {
             if ($key == $this->primary) //no primary key updating
                 continue;
 
-            $query .= " {$key}=:{$key}";
+            $values[] = "{$key}=:{$key}";
         }
 
-        //where
+        //values
+        $query .= " " . implode(',', $values);
+
+        //where condition - anything but integer and this won't be happy
         $query .= " WHERE {$this->primary}=:{$this->primary}";
 
         $this->query($query, $data);
@@ -138,6 +142,11 @@ abstract class Data
      */
     protected function query($query, array $params=array())
     {
+        error_log(json_encode(array(
+            'query' => $query,
+            'params' => $params),
+        JSON_UNESCAPED_SLASHES));
+
         $query = $this->dbh->prepare($query);
         $result = $query->execute($params);
         if (!$result) {

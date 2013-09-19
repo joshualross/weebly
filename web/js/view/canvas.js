@@ -24,30 +24,12 @@ define([
 //                }
 //            });
         },
-        addPage: function(data) {
-            $('#page nav').append(this.pageTemplate(data));
-        },
-        removePage: function(data) {
-            var $page = $('#page nav .button').filter(function(index, el) {
-                if (data.value == $(el).text() && data.position == $(el).data('position'))
-                    return true;
-                return false;
-            });
-            $page.fadeOut(300, function() { $(this).remove(); });
-        },
-        editPage: function(data) {
-            var $page = $('#page nav .button').filter(function(index, el) {
-                if (data.position == $(el).data('position'))
-                    return true;
-                return false;
-            });
-            
-            $page.html(data.value);
+        renderPages: function(collection) {
+            $('#page nav').html(this.pageTemplate({pages: collection.toJSON()}));
+            this.$el.find('nav div:first-child').addClass('selected');
         },
         initialize: function(options) {
-            Backbone.pubSub.on('template-add', this.addPage, this);
-            Backbone.pubSub.on('template-remove', this.removePage, this);
-            Backbone.pubSub.on('template-edit', this.editPage, this);
+            Backbone.pubSub.on('template-modify', this.renderPages, this);
         }
     });
 

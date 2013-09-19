@@ -1,14 +1,14 @@
 <div class="wrapper">
 	<nav>
-		<div class="button default" data-position="1">Page</div>
 	</nav>
-	<div id="image">
-		<div class="container">
-			<div></div>
-			<span>Add Image +</span>
-		</div>
-	</div>
 	<div id="content" class="sortables">
+		<div id="image">
+			<div class="container">
+				<div></div>
+				<span>Add Image +</span>
+			</div>
+		</div>
+	
 		<div class="text sortable">
 			<h1>Add Title Here</h1>
 			<p>

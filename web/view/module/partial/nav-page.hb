@@ -1,1 +1,3 @@
-<div class="button" data-position="{{position}}">{{value}}</div>
+{{#each pages}}
+	<div class="button" data-id="{{id}}">{{name}}</div>
+{{/each}}

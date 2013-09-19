@@ -77,7 +77,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
     {
         $data = array();
         foreach ($structs as $key => $struct)
-            $data[$key] = $struct->toArray();
+            $data[] = $struct->toArray();
         $expected = json_encode($data);
         $collection = new Collection($structs);
         $this->assertEquals($expected, $collection->toJSON());
