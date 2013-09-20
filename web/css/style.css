@@ -278,7 +278,7 @@
 	color: #FFF;
 }
 
-#page #image {
+#page .image {
 	margin: 48px 0;
 	height: 300px;
 	background: #eff2f5;
@@ -288,14 +288,14 @@
 	border: 2px solid #c0ccd8;
 }
 
-#page #image div {
+#page .image div {
 	position: relative;
 	top: 25%;
 	width: 104px;
 	margin: auto;
 }
 
-#page #image div.container div {
+#page .image div.container div {
 	height: 104px;
 	background: #FFF url(/img/Element-Icons@2x.png) -234px -15px no-repeat;
 	-webkit-border-radius: 10px;
@@ -304,3 +304,9 @@
 	border: 5px solid #FFF;
 }
 
+.highlight {
+	border: 5px red;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}

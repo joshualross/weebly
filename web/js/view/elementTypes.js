@@ -13,7 +13,18 @@ define([
         template: Handlebars.compile(template),
         render: function() {
             this.$el.html(this.template({types: this.collection.toJSON()}));
-            $('#elements .draggable').draggable({revert: true});
+            $('#elements').sortable({
+                revert: true,
+                connectWith: '.sortables',
+                items: '.draggable',
+                helper: 'clone',
+                activate: function(e, ui) {
+//                    debugger;
+                },
+                stop: function(e, ui) {
+                    
+                }
+            });
         },
         initialize: function(options) {
             //add the droppable containers

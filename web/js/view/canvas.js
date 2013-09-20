@@ -15,7 +15,12 @@ define([
         render: function() {
 
             this.$el.html(this.template()); 
-            $('.sortables').sortable({appendTo: '.sortables', items: 'div'});
+            $('.sortables').sortable({
+                appendTo: '.sortables', 
+                items: 'div',
+                placeholder: 'highlight',
+//                receive: function(e, ui) {debugger;},
+            });
          // here we add some droppable elements
 //            $('.droppable').droppable({
 //                accept : '.draggable',
@@ -23,6 +28,9 @@ define([
 //                    
 //                }
 //            });
+        },
+        receive: function(e, ui) {
+            debugger;
         },
         renderPages: function(collection) {
             $('#page nav').html(this.pageTemplate({pages: collection.toJSON()}));

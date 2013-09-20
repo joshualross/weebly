@@ -2,14 +2,14 @@
 	<nav>
 	</nav>
 	<div id="content" class="sortables">
-		<div id="image">
+		<div class="image">
 			<div class="container">
 				<div></div>
 				<span>Add Image +</span>
 			</div>
 		</div>
 	
-		<div class="text sortable">
+		<div class="text">
 			<h1>Add Title Here</h1>
 			<p>
 				Cum sociis natoque penatibus et magnis dis parturient montes,
@@ -26,7 +26,7 @@
 				
 			</p>
 		</div>
-		<div class="text sortable">
+		<div class="text">
 			<h1>Add Title Here</h1>
 			<p>
 				Cum sociis natoque penatibus et magnis dis parturient montes,
@@ -43,7 +43,7 @@
 				
 			</p>
 		</div>
-		<div class="text sortable">
+		<div class="text">
 			<h1>Add Title Here</h1>
 			<p>
 				Cum sociis natoque penatibus et magnis dis parturient montes,
