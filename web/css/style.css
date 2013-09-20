@@ -64,11 +64,11 @@
 	border-width: 1px 0 1px 0;
 }
 
-#templates section {
+#pages section {
 	padding: 12px;
 }
 
-#templates .page {
+#pages .page {
 	margin: 12px 20px;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
@@ -77,11 +77,11 @@
 	border-bottom-color: 2px solid #233240;
 }
 
-#templates .page.selected {
+#pages .page.selected {
 	background-color: #518dca;
 }
 
-#templates .page input{
+#pages .page input{
 	font-size: 13px;
 	text-transform: uppercase;
 	border: 0;
@@ -93,60 +93,60 @@
 	width: 100px;
 }
 
-#templates .page input:focus {
+#pages .page input:focus {
 	outline: none;
 }
 
-#templates .controls {
+#pages .controls {
 	float: right;
 	margin: 10px 10px 0 0;
 }
 
-#templates span.delete {
+#pages span.delete {
 	background: url(/img/Add-Delete-Edit-Icons.png) 25px -12px;
 	height: 15px;
 	display: inline-block;
 	width: 15px;
 	margin-left: 5px;
 }
-#templates span.delete:hover {
+#pages span.delete:hover {
 	background: url(/img/Add-Delete-Edit-Icons.png) 25px -31px;
 }
 
-#templates .page.confirm {
+#pages .page.confirm {
 	background-color: #d86a65;
 }
-#templates .page.confirm span.edit {
+#pages .page.confirm span.edit {
 	display:none;
 }
 
-#templates span.edit {
+#pages span.edit {
 	background: url(/img/Add-Delete-Edit-Icons.png) -34px -12px;
 	height: 15px;
 	display: inline-block;
 	width: 15px;
 }
-#templates span.edit:hover {
+#pages span.edit:hover {
 	background: url(/img/Add-Delete-Edit-Icons.png) -34px -31px;
 }
 
-#templates .page.add {
+#pages .page.add {
 	border: 2px solid #4f657b;
 	background: none;
 	color: #4f657b;
 }
 
-#templates .page.add input {
+#pages .page.add input {
 	color: #4f657b;
 }
 
-#templates span.add {
+#pages span.add {
 	background: url(/img/Add-Delete-Edit-Icons.png) -12px -12px;
 	height: 15px;
 	display: inline-block;
 	width: 15px;
 }
-#templates span.add:hover, #templates .page.add:hover span.add {
+#pages span.add:hover, #pages .page.add:hover span.add {
 	background: url(/img/Add-Delete-Edit-Icons.png) -12px -31px;
 }
 
@@ -251,14 +251,10 @@
 }
 
 #page .wrapper {
-	padding: 25px 80px;
+	padding: 20px 80px;
 }
 
-#page nav {
-	margin: 24px 0;
-}
-
-#page nav .button {
+#page .type-4 .button {
 	padding: 10px 15px;
 	width: 96px;
 	-webkit-border-radius: 5px;
@@ -273,12 +269,12 @@
 	margin-right: 10px;
 }
 
-#page nav .button.selected {
+#page .type-4 .button.selected {
 	background-color: #97aabc;
 	color: #FFF;
 }
 
-#page .image {
+#page .type-3 {
 	margin: 48px 0;
 	height: 300px;
 	background: #eff2f5;
@@ -288,14 +284,14 @@
 	border: 2px solid #c0ccd8;
 }
 
-#page .image div {
+#page .type-3 div {
 	position: relative;
 	top: 25%;
 	width: 104px;
 	margin: auto;
 }
 
-#page .image div.container div {
+#page .type-3 div.container div {
 	height: 104px;
 	background: #FFF url(/img/Element-Icons@2x.png) -234px -15px no-repeat;
 	-webkit-border-radius: 10px;
@@ -304,6 +300,63 @@
 	border: 5px solid #FFF;
 }
 
+#page .element {
+	margin: 20px 0;
+}
+
+#page .element .content{
+	padding: 10px;
+}
+
+#page .element:hover > div {
+	border: 2px solid #8fc7ff;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+}
+
+#page .element.confirm > div {
+	border: 2px solid #ef7a74;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+}
+
+
+#page .element:hover .content, #page .element.confirm .content {
+	padding: 8px;
+}
+
+#page .element:hover .delete {
+	background: url(/img/Delete-Element.png) -11px -10px no-repeat;
+	height: 36px;
+	width: 36px;
+	float: right;
+	margin: -2px -2px 0 0;
+	
+}
+
+#page .element.confirm .delete {
+	background: url(/img/Delete-Element.png) -54px -10px no-repeat;
+	height: 36px;
+	width: 36px;
+	float: right;
+	margin: -2px -2px 0 0;
+}
+
+
+/* #page .element > div:hover .close {
+	border-top: 25px solid #8fc7ff;
+	border-left: 25px solid #FFF;
+	height: 0;
+	width: 0;
+	float: right;
+	position: relative;
+	top: -5px;
+	right: -5px;
+}
+ */
+ 
 #page .type-1 { /* title */
 	font-size: 25px;
 	font-family: ProximaNovaBold;

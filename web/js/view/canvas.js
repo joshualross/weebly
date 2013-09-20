@@ -10,6 +10,8 @@ define([
     var CanvasView = Backbone.View.extend({
         el: $('#page'),
         events: {
+            'click .confirm .delete': 'remove',
+            'click .delete': 'confirm'
         },
         template: Handlebars.compile(template),
         pageTemplate: Handlebars.compile(pageTemplate),
@@ -30,7 +32,7 @@ define([
 //                }
 //            });
             $('.sortables').each(function() {
-                var html = $(this).child('div').html(),
+                var html = $(this).find('> div').html(),
                     type = $(this).data('type');
                 //if the text is empty, add text
                 if ('' == html)
@@ -45,25 +47,61 @@ define([
                     }
                         
                 }
-                debugger;
-            })
+            });
+
+            //refresh the navigation
+            Backbone.pubSub.trigger('page-refresh-request');
         },
-        receive: function(e, ui) {
-            debugger;
+        confirm: function(e) {
+            //add a class to the element for deleting etc
+            $(e.currentTarget).parent().parent('.element').addClass('confirm');
+        },
+        remove: function(e) {
+            //get the data id
+            var $parent = $(e.currentTarget).parent().parent('.element'),
+                model = this.collection.get($parent.data('id'));
+            
+            model.destroy();
+            $parent.slideUp(300, function() {$(this).remove();});
         },
         renderPages: function(collection) {
             $('.type-4').html(this.pageTemplate({pages: collection.toJSON()}));
             this.$el.find('.type-4 div:first-child').addClass('selected');
         },
+        elementAdd: function(data) {
+            //get the selected page
+            var page = $('.type-4 .selected').data('id');
+            //add to the collection
+            this.collection.create({'type': data.type, 'page': page});
+//highlight
+        },
+        fillElement: function() {
+            //when the element is empty, fill it with default
+            //@todo these integers have to go, need to find a better way
+            switch (type)
+            {
+                case 1:
+                    
+                case 2:
+                    
+                    break;
+                case 3:
+                    
+                    break;
+                case 4:
+                default:
+                    //do nothing for nav's
+                    break;
+            }
+        },
         initialize: function(options) {
-            
-//a nav has a set of pages, so for every nav element render all pages
-            
+
             this.collection = new ElementCollection([], {});
             this.listenTo(this.collection, 'sync', this.render);
             this.collection.fetch();
-            Backbone.pubSub.on('template-modify', this.renderPages, this);
-            Backbone.pubSub.on('element-add', this.updateElements, this);
+            
+            Backbone.pubSub.on('page-update', this.renderPages, this);
+            Backbone.pubSub.on('element-add', this.elementAdd, this);
         }
     });
 

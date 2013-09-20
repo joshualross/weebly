@@ -1,14 +1,14 @@
-// Filename: view/templates
+// Filename: view/pages
 define([
     'jquery', 
     'underscore', 
     'backbone', 
-    'model/template',
-    'collection/template',
-    'text!/view/module/templates.hb'   
-], function($, _, Backbone, TemplateModel, TemplateCollection, template) {
-    var TemplatesView = Backbone.View.extend({
-        el : $('#templates'),
+    'model/page',
+    'collection/page',
+    'text!/view/module/pages.hb'   
+], function($, _, Backbone, PageModel, PageCollection, template) {
+    var PagesView = Backbone.View.extend({
+        el : $('#pages'),
         defaultText: 'Add New Page',
         events : {
             'click .edit' : 'edit',
@@ -23,8 +23,7 @@ define([
         render : function() {
             this.$el.html(this.template({pages: this.collection.toJSON()}));
             this.$el.find('.page:first-child').addClass('selected');
-            Backbone.pubSub.trigger('template-modify', this.collection);
-
+            Backbone.pubSub.trigger('page-update', this.collection);
         },
         add: function(e) {
             var $input = $(e.currentTarget).children('input');            
@@ -37,11 +36,11 @@ define([
             var $parent = $(e.currentTarget).parent().parent('.page'),
                 $input = $parent.children('input'),
                 value = $input.val();
+            
             if (value != this.defaultText) {
                 this.collection.create({'name': value});
                 $input.val(this.defaultText);
-
-                Backbone.pubSub.trigger('template-modify', this.collection);
+                Backbone.pubSub.trigger('page-update', this.collection);
             }
         },
         edit : function(e) {
@@ -55,7 +54,7 @@ define([
 
             model.destroy();
             $parent.slideUp(300, function() {$(this).remove();});
-            Backbone.pubSub.trigger('template-modify', this.collection);
+            Backbone.pubSub.trigger('page-update', this.collection);
         },
         confirm : function(e) {
             $(e.currentTarget).parent().parent('.page').addClass('confirm');
@@ -63,13 +62,16 @@ define([
         disable : function(e) {
             var $target = $(e.target),
                 $parent = $(e.target).parent('.page'),
-                model = this.collection.get($parent.data('id'));;
+                id = $parent.data('id');
             
-            model.set('name', $target.val());
-            model.save();
+            if (id) { //we modified an existing model
+                var model = this.collection.get($parent.data('id'));
+                model.set('name', $target.val());
+                model.save();
+                Backbone.pubSub.trigger('page-update', this.collection);
+            }
                 
             $target.attr('disabled', 'disabled');
-            Backbone.pubSub.trigger('template-modify', this.collection);
         },
         addKeyup: function(e) {
             var $target = $(e.target),
@@ -79,12 +81,16 @@ define([
                 $target.val(value.replace(this.defaultText, ''));
             else if (value == '')
                 $target.val(this.defaultText);
-        }, 
+        },
+        refreshRequest: function() {
+            Backbone.pubSub.trigger('page-update', this.collection);
+        },
         initialize : function(options) {
-            this.collection = new TemplateCollection([], {});
+            this.collection = new PageCollection([], {});
             this.listenTo(this.collection, 'sync', this.render);
             this.collection.fetch();
+            Backbone.pubSub.on('page-refresh-request', this.refreshRequest, this);
         }
     });
-    return TemplatesView;
+    return PagesView;
 });

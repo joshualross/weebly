@@ -1,7 +1,7 @@
 <header>Templates</header>
 <section>
 	{{#each pages}}
-		{{> templatePage}}
+		{{> controlPage}}
 	{{/each}}
 
 	<div class="page add">

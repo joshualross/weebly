@@ -4,11 +4,11 @@ define([
     'underscore', 
     'backbone', 
     'view/elementTypes',
-    'view/templates',
+    'view/pages',
     'view/settings',
     'view/canvas',
     'view/error'
-], function($, _, Backbone, TemplatesView, ElementTypesView, SettingsView, CanvasView, ErrorView) {
+], function($, _, Backbone, PagesView, ElementTypesView, SettingsView, CanvasView, ErrorView) {
     var AppRouter = Backbone.Router.extend({
         routes : {
             '' : 'index',
@@ -19,7 +19,7 @@ define([
         var router = new AppRouter();
         router.on('route:index', function() {  
             var views = [
-                new TemplatesView(),
+                new PagesView(),
                 new ElementTypesView(),
                 new SettingsView(),
                 new CanvasView()
