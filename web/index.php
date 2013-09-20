@@ -73,9 +73,15 @@ $app->put('/page', function($params) use($pdo) {
 $app->delete('/page', function($params) use($pdo) {
     $data = new Page($pdo);
     $struct = $data->delete($params['id']);
-
-//@todo return
 });
+
+//element get
+$app->get('/element', function($params) use($pdo) {
+    $data = new Element($pdo);
+    $collection = $data->get();
+    echo $collection->toJSON();
+});
+
 
 //element create
 $app->post('/element', function($params) use($pdo) {
@@ -102,8 +108,6 @@ $app->put('/element', function($params) use($pdo) {
 $app->delete('/element', function($params) use($pdo) {
     $data = new Element($pdo);
     $struct = $data->delete($params['id']);
-
-    //@todo return
 });
 
 

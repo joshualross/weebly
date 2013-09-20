@@ -1,4 +1,8 @@
 <div class="wrapper">
+	{{#each elements}}
+		{{> element}}
+	{{/each}}
+
 	<nav>
 	</nav>
 	<div id="content" class="sortables">
@@ -8,6 +12,8 @@
 				<span>Add Image +</span>
 			</div>
 		</div>
+		
+		
 	
 		<div class="text">
 			<h1>Add Title Here</h1>

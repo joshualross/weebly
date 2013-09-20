@@ -6,9 +6,8 @@ define([
 ], function(_, Backbone, ElementModel) {
     var ElementCollection = Backbone.Collection.extend({
         model : ElementModel,
-        url : '/element/type',
+        url : '/element',
         initialize : function(models, options) {
-            this.fetch(this.url);
         }
     });
     return ElementCollection;

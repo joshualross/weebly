@@ -4,13 +4,17 @@ define([
     'handlebars',
     'text!/view/module/partial/template-page.hb', 
     'text!/view/module/partial/element-type.hb', 
-], function($, Handlebars, templatePage, elementType) {
+    'text!/view/module/partial/element.hb', 
+], function($, Handlebars, templatePage, elementType, element) {
     
     var partial = Handlebars.compile(templatePage);
     Handlebars.registerPartial('templatePage', partial);
     
     var partial = Handlebars.compile(elementType);
     Handlebars.registerPartial('elementType', partial);
+
+    var partial = Handlebars.compile(element);
+    Handlebars.registerPartial('element', partial);
     
     Handlebars.registerHelper("debug", function(optionalValue) {
         console.log("Current Context");

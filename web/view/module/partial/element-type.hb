@@ -1,4 +1,4 @@
-<div class="element" data-id="{{id}}">
-	<div class="{{name}} draggable"></div>
+<div class="element">
+	<div class="{{name}} draggable" data-id="{{id}}" data-type="{{name}}"></div>
 	<span>{{name}}</span>
 </div>

@@ -304,9 +304,22 @@
 	border: 5px solid #FFF;
 }
 
-.highlight {
-	border: 5px red;
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	border-radius: 10px;
+#page .type-1 { /* title */
+	font-size: 25px;
+	font-family: ProximaNovaBold;
+	font-weight: bold;
+}
+
+#page .type-2 { /* text */
+	
+}
+
+#page .type-3 { /* image */
+	margin: 48px 0;
+	height: 300px;
+	background: #eff2f5;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: 2px solid #c0ccd8;
 }
