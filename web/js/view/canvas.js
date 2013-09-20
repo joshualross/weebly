@@ -58,6 +58,13 @@ define([
            $(e.currentTarget).addClass('edit');
         },
         confirm: function(e) {
+            var $parent = $(e.currentTarget).parent().parent('.element');
+            
+            //prevent the only nav from being deleted
+            if ($parent.hasClass('type-4') && $('.element.type-4').length == 1) {
+                alert('Can\'t delete me, need at least one nav');
+                return;
+            }
             //add a class to the element for deleting etc
             $(e.currentTarget).parent().parent('.element').addClass('confirm');
         },
@@ -74,11 +81,10 @@ define([
             this.$el.find('.type-4 div:first-child').addClass('selected');
         },
         elementAdd: function(data) {
-            //get the selected page
-            var page = $('.type-4 .selected').data('id');
-            //add to the collection
+            //get the selected page 
+            //when the routing is done, we can get this from the page state
+            var page = $('.type-4 .button.selected').data('id');
             this.collection.create({'type': data.type, 'page': page});
-
         },
         initialize: function(options) {
 

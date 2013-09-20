@@ -21,14 +21,15 @@
 }
 
 .clear {
-	clear:both;
+	clear: both;
 }
 
 .container {
 	width: 1200px;
 }
 
-.container #application,.container #page {
+.container #application,
+.container #page {
 	float: left;
 }
 
@@ -81,7 +82,7 @@
 	background-color: #518dca;
 }
 
-#pages .page input{
+#pages .page input {
 	font-size: 13px;
 	text-transform: uppercase;
 	border: 0;
@@ -102,31 +103,37 @@
 	margin: 10px 10px 0 0;
 }
 
-#pages span.delete {
+#pages .page:hover .delete, 
+#pages .page.confirm .delete {
 	background: url(/img/Add-Delete-Edit-Icons.png) 25px -12px;
 	height: 15px;
 	display: inline-block;
 	width: 15px;
 	margin-left: 5px;
 }
-#pages span.delete:hover {
+
+#pages .page:hover .delete:hover, 
+#pages .page.confirm .delete:hover {
 	background: url(/img/Add-Delete-Edit-Icons.png) 25px -31px;
 }
 
 #pages .page.confirm {
 	background-color: #d86a65;
 }
-#pages .page.confirm span.edit {
-	display:none;
+
+#pages .page.confirm:hover .edit, 
+#pages .page.confirm .edit {
+	display: none;
 }
 
-#pages span.edit {
+#pages .page:hover .edit {
 	background: url(/img/Add-Delete-Edit-Icons.png) -34px -12px;
 	height: 15px;
 	display: inline-block;
 	width: 15px;
 }
-#pages span.edit:hover {
+
+#pages .page:hover .edit:hover {
 	background: url(/img/Add-Delete-Edit-Icons.png) -34px -31px;
 }
 
@@ -140,16 +147,17 @@
 	color: #4f657b;
 }
 
-#pages span.add {
+#pages .page .add {
 	background: url(/img/Add-Delete-Edit-Icons.png) -12px -12px;
 	height: 15px;
 	display: inline-block;
 	width: 15px;
 }
-#pages span.add:hover, #pages .page.add:hover span.add {
+
+#pages .page .add:hover,
+#pages .page.add:hover .add {
 	background: url(/img/Add-Delete-Edit-Icons.png) -12px -31px;
 }
-
 
 #application .element {
 	height: 75px;
@@ -168,16 +176,16 @@
 	left: 8px;
 }
 
-
 #application .element.top {
 	border-top: 0;
 	border-bottom: 0;
 }
+
 #application .element.left {
 	border-right: 0;
 }
 
-.element .title, 
+.element .title,
 .element .text,
 .element .image,
 .element .nav {
@@ -185,25 +193,28 @@
 	width: 53px;
 }
 
-.element .title{
+.element .title {
 	background: url(/img/Element-Icons.png) -9px -7px;
 }
-.element .text{
-	background: url(/img/Element-Icons.png) -63px -7px;	
+
+.element .text {
+	background: url(/img/Element-Icons.png) -63px -7px;
 }
-.element .image{
+
+.element .image {
 	background: url(/img/Element-Icons.png) -117px -7px;
 }
-.element .nav{
-	background: url(/img/Element-Icons.png) -171px -7px;	
+
+.element .nav {
+	background: url(/img/Element-Icons.png) -171px -7px;
 }
 
 .site-grid {
 	padding: 15px 30px;
 }
 
-.site-grid > div {
-	display:inline-block;
+.site-grid>div {
+	display: inline-block;
 }
 
 .switch-label {
@@ -213,10 +224,10 @@
 }
 
 .switch input {
-    display: none;
+	display: none;
 }
 
-.switch input + label {
+.switch input+label {
 	background: url(/img/Toggle-Switch.png) -6px -6px no-repeat;
 	height: 25px;
 	width: 50px;
@@ -224,26 +235,25 @@
 	padding: 0;
 }
 
-.switch input + label:hover {
+.switch input+label:hover {
 	background: url(/img/Toggle-Switch.png) -6px -31px no-repeat;
 	height: 25px;
 	width: 50px;
 	display: inline-block;
 	padding: 0;
-/* 	-webkit-transition: background 1s ease;  
+	/* 	-webkit-transition: background 1s ease;  
     -moz-transition: background 1s ease;  
     -o-transition: background 1s ease;  
     -ms-transition: background 1s ease;  
     transition: background 1s ease;  */
 }
 
-.switch input:checked + label {
+.switch input:checked+label {
 	background: url(/img/Toggle-Switch.png) -6px -56px no-repeat;
 	height: 25px;
 	width: 50px;
 	display: inline-block;
 	padding: 0;
-	
 }
 
 #page {
@@ -258,26 +268,26 @@
 	margin: 20px 0;
 }
 
-#page .element .content{
+#page .element .content {
 	padding: 10px;
 }
 
-#page .element.edit > div {
-	border: 2px solid #8fc7ff!important;
+#page .element.edit>div {
+	border: 2px solid #8fc7ff !important;
 	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;
 	border-radius: 6px;
 }
 
-#page .element.confirm > div {
-	border: 2px solid #ef7a74!important;
+#page .element.confirm>div {
+	border: 2px solid #ef7a74 !important;
 	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;
 	border-radius: 6px;
 }
 
-
-#page .element.edit .content, #page .element.confirm .content {
+#page .element.edit .content,
+#page .element.confirm .content {
 	padding: 8px;
 }
 
@@ -287,7 +297,6 @@
 	width: 36px;
 	float: right;
 	margin: -2px -2px 0 0;
-	
 }
 
 #page .element.confirm .delete {
@@ -341,6 +350,8 @@
 	top: 25%;
 	width: 104px;
 	margin: auto;
+	text-align: center;
+	line-height: 250px;
 }
 
 #page .element.type-3 .content {
@@ -348,7 +359,7 @@
 	border
 }
 
-#page .element.type-3 .content > div {
+#page .element.type-3 .content>div {
 	height: 104px;
 	background: #FFF url(/img/Element-Icons@2x.png) -234px -15px no-repeat;
 	-webkit-border-radius: 10px;
