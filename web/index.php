@@ -110,7 +110,7 @@ $app->delete('/element', function($params) use($pdo) {
     $struct = $data->delete($params['id']);
 });
 
-
+//element types
 $app->get('/element/type', function($params) use($pdo) {
     $data = new ElementType($pdo);
     $collection = $data->get();

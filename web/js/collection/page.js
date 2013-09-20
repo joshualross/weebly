@@ -1,4 +1,4 @@
-// Filename: collection/prediction
+// Filename: collection/page
 define([
     'underscore', 
     'backbone',

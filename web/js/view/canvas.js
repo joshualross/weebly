@@ -32,23 +32,6 @@ define([
 //                    
 //                }
 //            });
-            $('.sortables').each(function() {
-                var html = $(this).find('> div').html(),
-                    type = $(this).data('type');
-                //if the text is empty, add text
-                if ('' == html)
-                {
-//@todo fill in the data if there is no content
-                    switch (type)
-                    {
-                        case 1:
-                        case 2:
-                        case 3:
-                        case 4:
-                    }
-                        
-                }
-            });
 
             //refresh the navigation
             Backbone.pubSub.trigger('page-refresh-request');

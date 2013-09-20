@@ -44,7 +44,6 @@ define([
         return this.content;
     });
     
-    
     Handlebars.registerHelper("debug", function(optionalValue) {
         console.log("Current Context");
         console.log("====================");

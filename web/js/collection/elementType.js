@@ -1,4 +1,4 @@
-// Filename: collection/prediction
+// Filename: collection/elementType
 define([
     'underscore', 
     'backbone',

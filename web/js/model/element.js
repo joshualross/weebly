@@ -1,4 +1,4 @@
-// Filename: model/prediction
+// Filename: model/element
 define([
     'underscore', 
     'backbone'
