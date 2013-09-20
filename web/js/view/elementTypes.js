@@ -16,9 +16,11 @@ define([
             this.$el.html(this.template({types: this.collection.toJSON()}));
         },
         drop: function(e) {
-            //append to the sortables
             var type = $(e.currentTarget).data('id');
-            Backbone.pubSub.trigger('element-add',{'type': type, 'collection': this.collection});
+            Backbone.pubSub.trigger('element-add',{
+                'type': type, 
+                'collection': this.collection
+            });
         },
         initialize: function(options) {
             //add the droppable containers

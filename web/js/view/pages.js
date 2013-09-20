@@ -53,6 +53,13 @@ define([
                 model = this.collection.get($parent.data('id'));
 
             model.destroy();
+            
+            //there is more to do here, we need to know if this 
+            //is the selected page, and then if they edit/delete the 
+            //selected page, we have to update and reroute to the next page
+            //for now, we will just select the first one 
+            $('#pages .selected');
+            
             $parent.slideUp(300, function() {$(this).remove();});
             Backbone.pubSub.trigger('page-update', this.collection);
         },
@@ -84,6 +91,10 @@ define([
         },
         refreshRequest: function() {
             Backbone.pubSub.trigger('page-update', this.collection);
+        },
+        refreshCurrent: function() {
+            //basically, tell us which page is the current one
+            Backbone.pubSub.trigger('page-current', $('#pages .selected').data('id'));
         },
         initialize : function(options) {
             this.collection = new PageCollection([], {});

@@ -11,7 +11,8 @@ define([
         el: $('#page'),
         events: {
             'click .confirm .delete': 'remove',
-            'click .delete': 'confirm'
+            'click .delete': 'confirm',
+            'click .element': 'edit' 
         },
         template: Handlebars.compile(template),
         pageTemplate: Handlebars.compile(pageTemplate),
@@ -52,6 +53,10 @@ define([
             //refresh the navigation
             Backbone.pubSub.trigger('page-refresh-request');
         },
+        edit: function(e) {
+           $('.element').removeClass('edit');
+           $(e.currentTarget).addClass('edit');
+        },
         confirm: function(e) {
             //add a class to the element for deleting etc
             $(e.currentTarget).parent().parent('.element').addClass('confirm');
@@ -65,7 +70,7 @@ define([
             $parent.slideUp(300, function() {$(this).remove();});
         },
         renderPages: function(collection) {
-            $('.type-4').html(this.pageTemplate({pages: collection.toJSON()}));
+            $('.type-4 .content').html(this.pageTemplate({pages: collection.toJSON()}));
             this.$el.find('.type-4 div:first-child').addClass('selected');
         },
         elementAdd: function(data) {
@@ -73,26 +78,7 @@ define([
             var page = $('.type-4 .selected').data('id');
             //add to the collection
             this.collection.create({'type': data.type, 'page': page});
-//highlight
-        },
-        fillElement: function() {
-            //when the element is empty, fill it with default
-            //@todo these integers have to go, need to find a better way
-            switch (type)
-            {
-                case 1:
-                    
-                case 2:
-                    
-                    break;
-                case 3:
-                    
-                    break;
-                case 4:
-                default:
-                    //do nothing for nav's
-                    break;
-            }
+
         },
         initialize: function(options) {
 
